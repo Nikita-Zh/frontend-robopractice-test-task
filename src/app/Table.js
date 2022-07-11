@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from "react";
-import './TableAntd.css';
+import styles from './Table.module.css';
 import 'antd/dist/antd.css';
-import {Table, Input} from "antd";
+import {Table as TableAnt, Input} from "antd";
 
-const TableAntd = (props) => {
+const Table = (props) => {
 
     const [data, setData] = useState(props.data);
     const [columns, setColumns] = useState([]);
@@ -20,6 +20,9 @@ const TableAntd = (props) => {
         }
     }, [props.data, data]);
 
+    /*
+    * Method searches the user's date to initialize the current month.
+    * */
     const getDataDate = () => {
         for (const user of data) {
             if (user.Days) {
@@ -29,6 +32,9 @@ const TableAntd = (props) => {
         }
     };
 
+    /*
+    * Method initializes columns by current month for Table.
+    * */
     const columnsInit = (currentMonth) => {
         try {
             let month = currentMonth.getMonth();
@@ -73,18 +79,20 @@ const TableAntd = (props) => {
                         key: "monthlyTotal",
                         fixed: "right",
                         sorter: (a, b) => a.monthlyTotalNum - b.monthlyTotalNum,
-                        render: (text, record) => (
+                        render: (text) => (
                             <div style={{width: 85}}>
                                 {text}
                             </div>
                         ),
                     }
                 ]);
-        } catch (e) {
-
+        } catch (err) {
         }
     };
 
+    /*
+   * Method initializes rows by data for Table.
+   * */
     const rowsInit = () => {
         try {
             setRows([]);
@@ -103,11 +111,13 @@ const TableAntd = (props) => {
                 row.monthlyTotalNum = totalTime;
                 setRows(prevRows => [...prevRows, row]);
             }
-        } catch (e) {
-
+        } catch (err) {
         }
     };
 
+    /*
+    * Method turns string 'hh-mm' into Date object.
+    * */
     const getDate = (str) => {
         const date = str.split('-');
         const hours = date[0];
@@ -115,22 +125,34 @@ const TableAntd = (props) => {
         return new Date(0, 0, 0, hours, minutes);
     };
 
+    /*
+    * Method returns difference between two Date objects.
+    * */
     const getDateDifference = (firstDate, secondDate) => {
         return firstDate - secondDate;
     };
 
-    const getHoursAndMinutes = (time) => {
-        const hours = Math.floor((time) / 3600000);
-        const minutes = Math.round((time % 3600000) / 60000);
+    /*
+    * Method turn milliseconds into string format 'hh:mm'
+    * */
+    const getHoursAndMinutes = (millis) => {
+        const hours = Math.floor((millis) / 3600000);
+        const minutes = Math.round((millis % 3600000) / 60000);
         return hours + ":" + minutes;
     };
 
-    const getHoursAndMinutesByDay = (time) => {
-        const hours = Math.floor((time % 86400000) / 3600000);
-        const minutes = Math.round(((time % 86400000) % 3600000) / 60000);
+    /*
+    * Method turn milliseconds into string format 'hh:mm' by day
+    * */
+    const getHoursAndMinutesByDay = (millis) => {
+        const hours = Math.floor((millis % 86400000) / 3600000);
+        const minutes = Math.round(((millis % 86400000) % 3600000) / 60000);
         return hours + ":" + minutes;
     };
 
+    /*
+    * filter data by input value
+    * */
     const filterList = (e) => {
         const filteredList = props.data.filter(item => item.Fullname.toLowerCase().search(e.target.value.toLowerCase()) !== -1);
         if (filteredList.length === 0) {
@@ -154,7 +176,7 @@ const TableAntd = (props) => {
                    }}
             />
 
-            <Table
+            <TableAnt
                 columns={columns}
                 dataSource={rows}
                 bordered={true}
@@ -162,12 +184,12 @@ const TableAntd = (props) => {
                 tableLayout={"auto"}
                 scroll={{
                     x: true,
-                    y: 600
+                    y: 675
                 }}
             >
-            </Table>
+            </TableAnt>
         </>
     );
 };
 
-export default TableAntd;
+export default Table;

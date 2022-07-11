@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
-import './App.css';
-import TableAntd from "./TableAntd";
+import styles from './App.module.css';
+import Table from "./Table";
 
 const App = () => {
 
@@ -21,11 +21,11 @@ const App = () => {
 
     return (
         <>
-            <div className="wrapper">
-                <div className="container">
+            <div className={styles.wrapper}>
+                <div className={styles.container}>
                     <h1>Task for red_mad_robot</h1>
-                    <TableAntd dataIsLoaded={dataIsLoaded} data={data}></TableAntd>
-                    <footer className="footer">
+                    <Table dataIsLoaded={dataIsLoaded} data={data}></Table>
+                    <footer className={styles.footer}>
                         <div>Author: Nikita Zhuykov</div>
                     </footer>
                 </div>
