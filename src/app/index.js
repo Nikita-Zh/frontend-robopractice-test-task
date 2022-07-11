@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
-import Table from "./Table";
+import './App.css';
+import TableAntd from "./TableAntd";
 
 const App = () => {
 
@@ -10,35 +11,25 @@ const App = () => {
         fetch('http://localhost:8080/api/users')
             .then(res => res.json())
             .then((res) => {
-                    //console.log(res);
                     setData(res);
                     setDataIsLoaded(true);
-                    //console.log('state: ', data);
                 },
                 (err) => {
                     console.log(err);
                 });
     }, []);
 
-    /* const getData = () => {
-         fetch('http://localhost:8080/api/users')
-             .then(res => res.json())
-             .then((res) => {
-                     console.log(res);
-                     setDataIsLoaded(true);
-                     return res;
-
-                 },
-                 (err) => {
-                     console.log(err);
-                     return [];
-                 });
-     };
- */
     return (
         <>
-            <h1>Hello</h1>
-            <Table dataIsLoaded={dataIsLoaded} data={data}/>
+            <div className="wrapper">
+                <div className="container">
+                    <h1>Task for red_mad_robot</h1>
+                    <TableAntd dataIsLoaded={dataIsLoaded} data={data}></TableAntd>
+                    <footer className="footer">
+                        <div>Author: Nikita Zhuykov</div>
+                    </footer>
+                </div>
+            </div>
         </>
     );
 };
